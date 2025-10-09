@@ -37,6 +37,12 @@ if submitted:
             # st.subheader("📋 JSON Itinerary")
             # st.json(result["itinerary_json"])
             st.subheader("📝 Summary")
-            st.write(result["summary_text"])
+            if result is None:
+                st.error("No response received from the AI client.")
+            elif isinstance(result, dict) and "summary_text" in result and result["summary_text"] is not None:
+                st.write(result["summary_text"])
+            else:
+                # Fallback: show the raw result for debugging/visibility
+                st.write(result)
         except Exception as e:
             st.error(f"Error: {e}")
